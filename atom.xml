@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[pobo380 on a leash.]]></title>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/atom.xml" rel="self"/>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/"/>
-  <updated>2012-05-10T21:17:02+09:00</updated>
+  <updated>2012-05-10T21:28:32+09:00</updated>
   <id>http://pobo380.github.com/pobo380-on-a-leash/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[pobo380]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
