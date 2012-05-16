@@ -4,7 +4,7 @@
   <title><![CDATA[pobo380 on a leash.]]></title>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/atom.xml" rel="self"/>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/"/>
-  <updated>2012-05-10T21:28:32+09:00</updated>
+  <updated>2012-05-16T14:24:19+09:00</updated>
   <id>http://pobo380.github.com/pobo380-on-a-leash/</id>
   <author>
     <name><![CDATA[pobo380]]></name>
@@ -12,5 +12,182 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[WebAppDev勉強会 #2 資料]]></title>
+    <link href="http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/16/webappdev2/"/>
+    <updated>2012-05-16T06:01:00+09:00</updated>
+    <id>http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/16/webappdev2</id>
+    <content type="html"><![CDATA[<h2>今回の内容</h2>
+
+<h3>1. SQLite3のインストール</h3>
+
+<h4>Windows</h4>
+
+<p><a href="http://www.sqlite.org/download.html">SQLite Download Page</a>へ行き、Precompiled Binaries For Windowsの中のsqlite-dll-win32-x86-3071200.zip をダウンロードして下さい。</p>
+
+<h4>Mac</h4>
+
+<p>DeveloperTools(XCode)が入っていれば、既にインストール済みのはずです。</p>
+
+<h4>Linux</h4>
+
+<p>パッケージマネージャからsqlite3, sqlite3-develをインストールしてください。以下のURLが参考になります。</p>
+
+<ul>
+<li><a href="http://www.oiax.jp/rails/rails3/new_application.html">Ruby on Rails 3.0 日記 - SQLite3のインストール</a></li>
+</ul>
+
+
+<h3>2. sqlite3-ruby, Sequelのインストール</h3>
+
+<h4>Windows</h4>
+
+<p>コマンドプロンプトを管理者権限で起動し、</p>
+
+<pre><code>gem install sqlite3-ruby sequel
+</code></pre>
+
+<p>を実行して下さい。</p>
+
+<h4>Mac/Linux</h4>
+
+<p>ターミナルから</p>
+
+<pre><code>sudo gem install sqlite3-ruby sequel
+</code></pre>
+
+<p>を実行して下さい。</p>
+
+<h4>Mac/Linux</h4>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[WebAppDev勉強会 #1 資料]]></title>
+    <link href="http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/16/new-post/"/>
+    <updated>2012-05-16T05:15:00+09:00</updated>
+    <id>http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/16/new-post</id>
+    <content type="html"><![CDATA[<h2>スライド</h2>
+
+<p><a href="http://www.slideshare.net/pobo380/webappdev-1-at-cafe-ikagawa-do">ここ</a>
+(SlideShare)にアップロードしました。アップロードの際に一部内容が壊れています。</p>
+
+<h3>開発環境のセットアップ</h3>
+
+<p>RubyとSinatraのインストールを行います。Rubyのバージョンは1.8.7を推奨します。</p>
+
+<h4>Windows</h4>
+
+<ul>
+<li><a href="http://www.kkaneko.com/rinkou/ruby/rubyinstaller.html">Windows で Ruby バージョン 1.8.7 あるいは 1.9.2 のインストール (RubyInstaller を使用)</a></li>
+</ul>
+
+
+<p>上記のサイトの内容を参考に、
+「Ruby バージョン 1.8.7のインストール」
+「Sinatra を gem を用いてインストール」
+を行なって下さい。</p>
+
+<h4>Mac</h4>
+
+<p>DeveloperTools(XCode)が入っていれば、既にインストール済みのはずです。
+確認のためターミナルから</p>
+
+<pre><code>ruby -v
+</code></pre>
+
+<p>を実行して下さい。インストール済みであれば、ターミナルから</p>
+
+<pre><code>sudo gem install sinatra shotgun
+</code></pre>
+
+<p>を実行して下さい。</p>
+
+<h4>Linux</h4>
+
+<p>パッケージマネージャからrubyをインストールして下さい。その後、RubyGemsのインストールを行ってください。
+ターミナルから</p>
+
+<pre><code>sudo gem install sinatra shotgun
+</code></pre>
+
+<p>を実行して下さい。</p>
+
+<ul>
+<li><a href="http://rubygems.org/">http://rubygems.org/</a></li>
+</ul>
+
+
+<h3>Code</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rubygems&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Messages</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">str</span> <span class="o">=</span> <span class="no">Messages</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">msg</span><span class="o">|</span>
+</span><span class='line'>    <span class="s2">&quot;&lt;p&gt;</span><span class="si">#{</span><span class="n">msg</span><span class="si">}</span><span class="s2">&lt;/p&gt;&quot;</span>
+</span><span class='line'>  <span class="k">end</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">&lt;&lt;-</span><span class="no">EOS</span>
+</span><span class='line'><span class="sh">  &lt;html&gt;</span>
+</span><span class='line'><span class="sh">    &lt;head&gt;</span>
+</span><span class='line'><span class="sh">      &lt;title&gt;Hello, Sinatra!!&lt;/title&gt;</span>
+</span><span class='line'><span class="sh">    &lt;/head&gt;</span>
+</span><span class='line'><span class="sh">    &lt;body&gt;</span>
+</span><span class='line'><span class="sh">      &lt;h1&gt;My First Web Application.&lt;/h1&gt;</span>
+</span><span class='line'><span class="sh">      &lt;form action=&quot;/toukou&quot; method=&quot;post&quot;&gt;</span>
+</span><span class='line'><span class="sh">        &lt;div&gt;&lt;input type=&quot;text&quot; name=&quot;message&quot;&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="sh">        &lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;submit&quot;&gt;&lt;/div&gt;</span>
+</span><span class='line'><span class="sh">      &lt;/form&gt;</span>
+</span><span class='line'><span class="sh">      &lt;div&gt;#{str}&lt;/div&gt;</span>
+</span><span class='line'><span class="sh">    &lt;/body&gt;</span>
+</span><span class='line'><span class="sh">  &lt;/html&gt;</span>
+</span><span class='line'><span class="no">  EOS</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">post</span> <span class="s1">&#39;/toukou&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Messages</span> <span class="o">&lt;&lt;</span> <span class="n">params</span><span class="o">[</span><span class="ss">:message</span><span class="o">]</span> <span class="c1"># Save</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">redirect</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
 </feed>
