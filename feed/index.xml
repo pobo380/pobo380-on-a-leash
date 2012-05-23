@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[pobo380 on a leash.]]></title>
-  <link href="http://pobo380.github.com/pobo380-on-a-leash/atom.xml" rel="self"/>
+  <link href="http://pobo380.github.com/pobo380-on-a-leash/feed" rel="self"/>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/"/>
   <updated>2012-05-23T17:05:55+09:00</updated>
   <id>http://pobo380.github.com/pobo380-on-a-leash/</id>

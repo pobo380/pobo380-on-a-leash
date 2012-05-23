@@ -9,7 +9,12 @@
   <meta name="author" content="pobo380">
 
   
-  <meta name="description" content="今回の内容 1. SQLite3のインストール Windows SQLite Download Pageへ行き、Precompiled Binaries For Windowsの中のsqlite-dll-win32-x86-3071200.zip をダウンロードして下さい。 Mac &hellip;">
+  <meta name="description" content="今日のスライド
+http://www.slideshare.net/pobo380/no3-13039866 1 TOPページ # coding: utf-8
+require 'rubygems'
+require 'sinatra' ## TOP
+get '/' do erb :index
+end &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +67,444 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/pobo380-on-a-leash/blog/2012/05/23/webappdev3/">WebAppDevワークショップ #3 資料</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-23T16:38:00+09:00" pubdate data-updated="true">May 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>今日のスライド
+http://www.slideshare.net/pobo380/no3-13039866</p>
+
+<h2>1 TOPページ</h2>
+
+<div><script src='https://gist.github.com/2773541.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+
+## TOP
+get '/' do
+  erb :index
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+</code></pre></noscript></div>
+
+
+<h2>2-1 投稿ページを作ろう (URLとHTMLの追加)</h2>
+
+<div><script src='https://gist.github.com/2773584.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+
+## トップページ
+get '/' do
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;submit&quot;&gt;
+&lt;/form&gt;
+</code></pre></noscript></div>
+
+
+<h2>2-2 投稿ページを作ろう (DBの接続、テーブルの定義、データの追加)</h2>
+
+<div><script src='https://gist.github.com/2773636.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel'
+
+## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite('database.sqlite3')
+
+## テーブルの定義
+class Post &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      string :title
+      string :text, :text =&gt; true # これがないと255文字まで
+    end
+
+    create_table
+  end
+end
+
+## トップページ
+get '/' do
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+  Post.create(:title =&gt; params[:title], :text =&gt; params[:text])
+
+  redirect '/'
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;投稿する&quot;&gt;
+&lt;/form&gt;
+</code></pre></noscript></div>
+
+
+<h2>3 トップページに記事を表示するように</h2>
+
+<div><script src='https://gist.github.com/2773673.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel'
+
+## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite('database.sqlite3')
+
+## テーブルの定義
+class Post &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      string :title
+      string :text, :text =&gt; true # これがないと255文字まで
+    end
+
+    create_table
+  end
+end
+
+## トップページ
+get '/' do
+  @posts = Post.all
+
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+  Post.create(:title =&gt; params[:title], :text =&gt; params[:text])
+
+  redirect '/'
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+&lt;h2&gt;記事&lt;/h2&gt;
+&lt;hr&gt;
+&lt;% @posts.each do |post| %&gt;
+  &lt;h3&gt;&lt;%= post.title %&gt;&lt;/h3&gt;
+  &lt;p&gt;&lt;%= post.text %&gt;&lt;/p&gt;
+  &lt;hr&gt;
+&lt;% end %&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;投稿する&quot;&gt;
+&lt;/form&gt;
+</code></pre></noscript></div>
+
+
+<h2>4 記事の個別ページ</h2>
+
+<div><script src='https://gist.github.com/2773718.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel'
+
+## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite('database.sqlite3')
+
+## テーブルの定義
+class Post &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      string :title
+      string :text, :text =&gt; true # これがないと255文字まで
+    end
+
+    create_table
+  end
+end
+
+## トップページ
+get '/' do
+  @posts = Post.all
+
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+  Post.create(:title =&gt; params[:title], :text =&gt; params[:text])
+
+  redirect '/'
+end
+
+## 記事の個別ページ
+get '/article/:id' do
+  @post = Post.find(:id =&gt; params[:id])
+
+  erb :article
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+&lt;h2&gt;記事&lt;/h2&gt;
+&lt;hr&gt;
+&lt;% @posts.each do |post| %&gt;
+  &lt;h3&gt;&lt;%= post.title %&gt;&lt;/h3&gt;
+  &lt;p&gt;&lt;%= post.text %&gt;&lt;/p&gt;
+  &lt;hr&gt;
+&lt;% end %&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;投稿する&quot;&gt;
+&lt;/form&gt;
+
+@@ article
+&lt;h1&gt;&lt;%= @post.title %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= @post.text %&gt;&lt;/p&gt;
+</code></pre></noscript></div>
+
+
+<h2>5 リンクを埋め込み</h2>
+
+<div><script src='https://gist.github.com/2773730.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel'
+
+## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite('database.sqlite3')
+
+## テーブルの定義
+class Post &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      string :title
+      string :text, :text =&gt; true # これがないと255文字まで
+    end
+
+    create_table
+  end
+end
+
+## トップページ
+get '/' do
+  @posts = Post.all
+
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+  Post.create(:title =&gt; params[:title], :text =&gt; params[:text])
+
+  redirect '/'
+end
+
+## 記事の個別ページ
+get '/article/:id' do
+  @post = Post.find(:id =&gt; params[:id])
+
+  erb :article
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+&lt;h2&gt;記事&lt;/h2&gt;
+&lt;% @posts.each do |post| %&gt;
+  &lt;hr&gt;
+  &lt;h3&gt;&lt;a href=&quot;/article/&lt;%=post.id%&gt;&quot;&gt;&lt;%= post.title %&gt;&lt;/a&gt;&lt;/h3&gt;
+  &lt;p&gt;&lt;%= post.text %&gt;&lt;/p&gt;
+&lt;% end %&gt;
+&lt;hr&gt;
+&lt;a href=&quot;/new&quot;&gt;記事を投稿する&lt;/a&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;投稿する&quot;&gt;
+&lt;/form&gt;
+
+@@ article
+&lt;h1&gt;&lt;%= @post.title %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= @post.text %&gt;&lt;/p&gt;
+</code></pre></noscript></div>
+
+
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -305,6 +748,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/pobo380-on-a-leash/blog/2012/05/23/webappdev3/">WebAppDevワークショップ #3 資料</a>
+      </li>
     
       <li class="post">
         <a href="/pobo380-on-a-leash/blog/2012/05/16/webappdev2/">WebAppDev勉強会 #2 資料</a>

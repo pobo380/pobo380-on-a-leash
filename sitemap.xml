@@ -2,18 +2,26 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/16/new-post/</loc>
-        <lastmod>2012-05-16T06:05:50+09:00</lastmod>
+        <lastmod>2012-05-23T01:44:34+09:00</lastmod>
     </url>
     <url>
         <loc>http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/16/webappdev2/</loc>
-        <lastmod>2012-05-16T06:54:00+09:00</lastmod>
+        <lastmod>2012-05-23T01:44:34+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/23/webappdev3/</loc>
+        <lastmod>2012-05-23T17:05:54+09:00</lastmod>
     </url>
     <url>
         <loc>http://pobo380.github.com/pobo380-on-a-leash/blog/archives/</loc>
-        <lastmod>2012-05-16T06:54:00+09:00</lastmod>
+        <lastmod>2012-05-23T17:05:54+09:00</lastmod>
+    </url>
+    <url>
+        <loc>http://pobo380.github.com/pobo380-on-a-leash/feed/index.xml</loc>
+        <lastmod>2012-05-22T20:50:14+09:00</lastmod>
     </url>
     <url>
         <loc>http://pobo380.github.com/pobo380-on-a-leash/</loc>
-        <lastmod>2012-05-16T06:54:00+09:00</lastmod>
+        <lastmod>2012-05-23T17:05:54+09:00</lastmod>
     </url>
 </urlset>
