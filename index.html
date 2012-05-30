@@ -9,8 +9,12 @@
   <meta name="author" content="pobo380">
 
   
-  <meta name="description" content="今日のスライド 5 投稿日時の追加 {% gist 2833993 %} 6 コメント機能の追加 {% gist 2834069 %}
-">
+  <meta name="description" content="今日のスライド 5 投稿日時の追加 # coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel' ## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite(' &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,11 +100,216 @@
 
 <h2>5 投稿日時の追加</h2>
 
-<p>{% gist 2833993 %}</p>
+<div><script src='https://gist.github.com/2833993.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel'
+
+## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite('database.sqlite3')
+
+## テーブルの定義
+class Post &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      string :title
+      string :text, :text =&gt; true # これがないと255文字まで
+      datetime :created_at
+    end
+
+    create_table
+  end
+end
+
+## トップページ
+get '/' do
+  @posts = Post.all
+
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+  Post.create(:title =&gt; params[:title], :text =&gt; params[:text], :created_at =&gt; DateTime.now)
+
+  redirect '/'
+end
+
+## 記事の個別ページ
+get '/article/:id' do
+  @post = Post.find(:id =&gt; params[:id])
+
+  erb :article
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+&lt;h2&gt;記事&lt;/h2&gt;
+&lt;% @posts.each do |post| %&gt;
+  &lt;hr&gt;
+  &lt;h3&gt;&lt;a href=&quot;/article/&lt;%=post.id%&gt;&quot;&gt;&lt;%= post.title %&gt;&lt;/a&gt;&lt;/h3&gt;
+  &lt;p&gt;&lt;%= post.text %&gt;&lt;/p&gt;
+&lt;% end %&gt;
+&lt;hr&gt;
+&lt;a href=&quot;/new&quot;&gt;記事を投稿する&lt;/a&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;投稿する&quot;&gt;
+&lt;/form&gt;
+
+@@ article
+&lt;h1&gt;&lt;%= @post.title %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= @post.created_at %&gt;&lt;/p&gt;
+&lt;p&gt;&lt;%= @post.text %&gt;&lt;/p&gt;
+</code></pre></noscript></div>
+
 
 <h2>6 コメント機能の追加</h2>
 
-<p>{% gist 2834069 %}</p>
+<div><script src='https://gist.github.com/2834069.js?file='></script>
+<noscript><pre><code># coding: utf-8
+require 'rubygems'
+require 'sinatra'
+require 'sequel'
+
+## DBへの接続
+Sequel::Model.plugin(:schema)
+DB = Sequel.sqlite('database.sqlite3')
+
+## テーブルの定義
+class Post &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      string :title
+      string :text, :text =&gt; true # これがないと255文字まで
+      datetime :created_at
+    end
+
+    create_table
+  end
+end
+
+class Comment &lt; Sequel::Model
+  unless table_exists?
+    set_schema do
+      primary_key :id
+      foreign_key :post_id, :posts
+      string :text, :text =&gt; true
+      datetime :created_at
+    end
+
+    create_table
+  end
+end
+
+## トップページ
+get '/' do
+  @posts = Post.all
+
+  erb :index
+end
+
+## 投稿ページ
+get '/new' do
+  erb :new
+end
+
+## 投稿データの受取り
+post '/posted' do
+  Post.create(:title =&gt; params[:title], :text =&gt; params[:text], :created_at =&gt; DateTime.now)
+
+  redirect '/'
+end
+
+## 記事の個別ページ
+get '/article/:id' do
+  @post = Post.find(:id =&gt; params[:id])
+  @comments = Comment.filter(:post_id =&gt; params[:id]).all
+
+  erb :article
+end
+
+## コメントデータの受取り
+post '/article/:id/commented' do
+  @comment = Comment.create(:post_id =&gt; params[:id], :text =&gt; params[:text], :created_at =&gt; DateTime.new)
+
+  redirect &quot;/article/#{params[:id]}&quot;
+end
+
+__END__
+
+@@ layout
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;title&gt;My Blog&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+@@ index
+&lt;h1&gt;pobo380 on a leash.&lt;/h1&gt;
+&lt;p&gt;私のブログです&lt;/p&gt;
+&lt;h2&gt;記事&lt;/h2&gt;
+&lt;% @posts.each do |post| %&gt;
+  &lt;hr&gt;
+  &lt;h3&gt;&lt;a href=&quot;/article/&lt;%=post.id%&gt;&quot;&gt;&lt;%= post.title %&gt;&lt;/a&gt;&lt;/h3&gt;
+  &lt;p&gt;&lt;%= post.text %&gt;&lt;/p&gt;
+&lt;% end %&gt;
+&lt;hr&gt;
+&lt;a href=&quot;/new&quot;&gt;記事を投稿する&lt;/a&gt;
+
+@@ new
+&lt;h2&gt;新しい記事を投稿&lt;/h2&gt;
+&lt;form action=&quot;/posted&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;title : &lt;input name=&quot;title&quot; type=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;80&quot; rows=&quot;20&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;投稿する&quot;&gt;
+&lt;/form&gt;
+
+@@ article
+&lt;h1&gt;&lt;%= @post.title %&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;%= @post.created_at %&gt;&lt;/p&gt;
+&lt;p&gt;&lt;%= @post.text %&gt;&lt;/p&gt;
+&lt;h2&gt;コメント&lt;/h2&gt;
+&lt;% @comments.each do |comment| %&gt;
+  &lt;p&gt;&lt;%= comment.text %&gt;&lt;/p&gt;
+&lt;% end %&gt;
+&lt;form action=&quot;./&lt;%= params[:id] %&gt;/commented&quot; method=&quot;post&quot;&gt;
+  &lt;div&gt;text : &lt;textarea name=&quot;text&quot; cols=&quot;40&quot; rows=&quot;6&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;コメントする&quot;&gt;
+&lt;/form&gt;
+</code></pre></noscript></div>
+
+
+
 </div>
   
   
