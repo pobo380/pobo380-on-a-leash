@@ -4,7 +4,7 @@
   <title><![CDATA[pobo380 on a leash.]]></title>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/atom.xml" rel="self"/>
   <link href="http://pobo380.github.com/pobo380-on-a-leash/"/>
-  <updated>2012-05-23T17:05:55+09:00</updated>
+  <updated>2012-05-30T17:48:38+09:00</updated>
   <id>http://pobo380.github.com/pobo380-on-a-leash/</id>
   <author>
     <name><![CDATA[pobo380]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[WebAppDevワークショップ #4 資料]]></title>
+    <link href="http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/30/webappdev4/"/>
+    <updated>2012-05-30T17:36:00+09:00</updated>
+    <id>http://pobo380.github.com/pobo380-on-a-leash/blog/2012/05/30/webappdev4</id>
+    <content type="html"><![CDATA[<p><a href="http://www.slideshare.net/pobo380/webappdev-4">今日のスライド</a></p>
+
+<h2>5 投稿日時の追加</h2>
+
+<p>{% gist 2833993 %}</p>
+
+<h2>6 コメント機能の追加</h2>
+
+<p>{% gist 2834069 %}</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[WebAppDevワークショップ #3 資料]]></title>
